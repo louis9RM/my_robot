@@ -1,16 +1,33 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_robot">
+
+  <!-- Link mínimo para robot_state_publisher -->
   <link name="base_link"/>
 
-  <!-- En Humble puedes dejar type="actuator" o "system"; lo importante es NO usar <actuator> -->
+  <!--
+    En Humble, NO usar <actuator> dentro de ros2_control.
+    Se declara como <joint> aunque el hardware implemente ActuatorInterface.
+  -->
   <ros2_control name="MyRobotActuator" type="actuator">
     <hardware>
       <plugin>my_motor_hardware/SimpleMotor</plugin>
-      <!-- Si tu hardware usa parámetros, decláralos aquí:
-      <param name="gpio_rpwm">23</param>
-      <param name="gpio_lpwm">24</param>
-      <param name="gpio_en">25</param>
+
+      <!-- ====== Parámetros de tu driver gpiod (BCM) ======
+           Cambia estos valores a tus pines reales.
+           Si tu placa requiere habilitar EN, usa gpio_en.
       -->
+      <param name="gpio_rpwm">18</param>   <!-- RPWM (BCM) -->
+      <param name="gpio_lpwm">19</param>   <!-- LPWM (BCM) -->
+      <param name="gpio_en">23</param>     <!-- Enable (BCM); si no lo usas, pon un pin fijo alto por hardware -->
+
+      <!-- Opcionales comunes en tu driver (si los soporta) -->
+      <param name="cmd_min">-1.0</param>
+      <param name="cmd_max">1.0</param>
+      <param name="deadband">0.02</param>
+      <param name="invert">false</param>
+      <!-- Si tu implementación usa una opción de frecuencia para simular PWM por software,
+           puedes dejarla aquí; si no la usa, no afecta. -->
+      <param name="pwm_freq_hz">1000</param>
     </hardware>
 
     <!-- Declarar como JOINT para Humble -->
@@ -19,4 +36,5 @@
       <state_interface   name="velocity"/>
     </joint>
   </ros2_control>
+
 </robot>
