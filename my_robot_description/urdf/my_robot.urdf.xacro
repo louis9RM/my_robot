@@ -1,15 +1,22 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_robot">
-  <!-- al menos un link para robot_state_publisher -->
   <link name="base_link"/>
 
-  <!-- ros2_control que usa tu plugin -->
-  <ros2_control name="MyRobotSystem" type="system">
+  <!-- En Humble puedes dejar type="actuator" o "system"; lo importante es NO usar <actuator> -->
+  <ros2_control name="MyRobotActuator" type="actuator">
     <hardware>
-      <plugin>my_motor_hardware/Bts7960Actuator</plugin>
-      <!-- parámetros opcionales
-      <param name="pwm_pin">18</param>
+      <plugin>my_motor_hardware/SimpleMotor</plugin>
+      <!-- Si tu hardware usa parámetros, decláralos aquí:
+      <param name="gpio_rpwm">23</param>
+      <param name="gpio_lpwm">24</param>
+      <param name="gpio_en">25</param>
       -->
     </hardware>
+
+    <!-- Declarar como JOINT para Humble -->
+    <joint name="simple_motor">
+      <command_interface name="velocity"/>
+      <state_interface   name="velocity"/>
+    </joint>
   </ros2_control>
 </robot>

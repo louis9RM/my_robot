@@ -2,16 +2,16 @@
 <package format="3">
   <name>my_robot_description</name>
   <version>0.0.1</version>
-  <description>Descripción URDF/Xacro de my_robot con ros2_control</description>
-
-  <maintainer email="pi@raspberrypi.local">pi</maintainer>
+  <description>URDF/Xacro para my_robot</description>
+  <maintainer email="you@example.com">You</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>ament_index_cpp</depend>
-  <depend>urdf</depend>
-  <depend>xacro</depend>
+  <!-- runtime -->
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>ros2_control</exec_depend>
+  <exec_depend>hardware_interface</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

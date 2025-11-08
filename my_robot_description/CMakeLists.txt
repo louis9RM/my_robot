@@ -3,7 +3,6 @@ project(my_robot_description)
 
 find_package(ament_cmake REQUIRED)
 
-# Instalamos los URDF/Xacro
 install(DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
